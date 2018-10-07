@@ -1,7 +1,10 @@
 import express from 'express';
 import mongoose, { mongo } from 'mongoose';
+import swaggerUI from 'swagger-ui-express';
 
 import {router} from './config/routes';
+import swaggerDocument from './config/swagger.json';
+import cors from 'cors';
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/recipeDb4');
@@ -11,7 +14,11 @@ const PORT = 3001;
 
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(cors());
 app.use('/api', router);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument, {
+    explorer:true
+}))
 
 //Error Handling
 

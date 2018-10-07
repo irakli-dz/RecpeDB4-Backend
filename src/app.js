@@ -19,7 +19,6 @@ mongoose.connect("mongodb+srv://Irakli:mO8kaSItCYmwOMGr@cluster0-rwizn.mongodb.n
 
 const app = express();
 const PORT = 3001;
-//mO8kaSItCYmwOMGr
 
 app.use(express.json());
 app.use(express.urlencoded());

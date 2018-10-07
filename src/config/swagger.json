@@ -1,0 +1,27 @@
+{
+    "title": "Recipe DB4 API Documentation",
+    "description": "Swagger API",
+    
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.0",
+    "host": "localchost:3001",
+    "basePath": "/api",
+    "tags": [
+      {
+        "name": "Recipes",
+        "description": "API for recipe"
+      }
+    ],
+    "schemes" : ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths" : {
+      "/recipes":{}
+    },
+    "definitions":{
+     
+    }
+  }

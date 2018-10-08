@@ -1,9 +1,16 @@
 import Joi from "joi";
-import recipe from '../models/recipe.model';
+import Recipe from '../models/recipe.model';
 
 export default {
     findAll(req,res,next) {
-        recipe.find().then(recipes=> res.json(recipes))
+        const {page = 1, perPage = 10} = req.query;
+        const options = {
+            page: parseInt(page,10),
+            limit: parseInt(perPage,10),
+        };
+
+        Recipe.paginate({}, options)
+        .then(recipes=> res.json(recipes))
         .catch(err=>res.status(500).json(err));
     },
 
@@ -21,14 +28,14 @@ export default {
             return res.json(400).json(error);
         }
 
-    recipe.create(value)
+    Recipe.create(value)
             .then(recipe=> res.json(recipe))
             .catch(err=> res.status(500).json(err));
     },
 
     findOne(req,res) {
         let {id} = req.params;
-        recipe.findById(id).then(recipe=>{
+        Recipe.findById(id).then(recipe=>{
             if (!recipe){
                 return res.status(404).json({err:'Could not find recipe'});
             }
@@ -39,7 +46,7 @@ export default {
 
     delete(req,res) {
         let {id} = req.params;
-        recipe.findByIdAndDelete(id).then(recipe=>{
+        Recipe.findByIdAndDelete(id).then(recipe=>{
             if (!recipe){
                 return res.status(404).json({err:'Could not find recipe'});
             }
@@ -64,7 +71,7 @@ export default {
         if (error && error.details) {
             return res.status(400).json(error);
         }
-        recipe.findOneAndUpdate({_id:id}, value,{new:true})
+        Recipe.findOneAndUpdate({_id:id}, value,{new:true})
             .then(recipe => res.json(recipe))
             .catch(err => res.status(500).json(err));
 

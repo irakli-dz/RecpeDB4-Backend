@@ -44,7 +44,7 @@ app.use((error,req,res,next)=> {
             message: error.message,
         },
     });
-})
+});
 
 // app.get('/invoices', (req,res)=> {
 //     res.json(invoices);

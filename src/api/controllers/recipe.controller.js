@@ -13,8 +13,8 @@ export default {
             item: Joi.string().required(),
             type: Joi.string().optional(),
             cousine: Joi.string().optional(),
-            rate: Joi.number().optional(),
-            ingredients: Joi.string().required()
+            ingredients: Joi.string().optional(),
+            rate: Joi.number().optional()
         });
         const {error, value} = Joi.validate(req.body, joiSchema);
         if (error && error.details) {
@@ -43,6 +43,7 @@ export default {
             if (!recipe){
                 return res.status(404).json({err:'Could not find recipe'});
             }
+            console.log(`Recipe ${recipe.item} with Id: ${id} was deleted`);
             return res.json(recipe);
         })
         .catch(err=>res.status(500).json(err));
@@ -51,19 +52,25 @@ export default {
     update(req,res) {
         let {id} = req.params;
         const joiSchema = Joi.object().keys({
-            item: Joi.string().required(),
+            item: Joi.string().optional(),
             type: Joi.string().optional(),
             cousine: Joi.string().optional(),
-            rate: Joi.number().optional(),
-            ingredients: Joi.string().required()
+            //ingredients: Joi.string().optional(),
+            ingredients: Joi.array().items(Joi.string()),
+            rate: Joi.number().optional()
+            
         });
         const {error, value} = Joi.validate(req.body, joiSchema);
         if (error && error.details) {
-            return res.json(400).json(error);
+            return res.status(400).json(error);
         }
-        recipe.findByIdAndUpdate({_id:id}, value,{new:true})
+        recipe.findOneAndUpdate({_id:id}, value,{new:true})
             .then(recipe => res.json(recipe))
             .catch(err => res.status(500).json(err));
+
+            // recipe.findOneAndUpdate({ _id: id }, value, { new: true })
+            // .then(invoice => res.json(invoice))
+            // .catch(err => res.status(500).json(err));
     },
    
     
